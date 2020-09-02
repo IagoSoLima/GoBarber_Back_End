@@ -4,9 +4,11 @@ import usersRouter from '@modules/users/infra/http/routes/users.routes';
 import sessionsRouter from '@modules/users/infra/http/routes/sessions.routes';
 import PasswordRouter from '@modules/users/infra/http/routes/password.routes';
 import ProfileRouter from '@modules/users/infra/http/routes/profile.routes';
+import ProviderRouter from '@modules/appointments/infra/http/routes/providers.routes';
 
 const routes = Router();
 routes.use('/appointments', appointmentRouter);
+routes.use('/providers', ProviderRouter);
 routes.use('/users', usersRouter);
 routes.use('/sessions', PasswordRouter);
 routes.use('/sessions', sessionsRouter);
