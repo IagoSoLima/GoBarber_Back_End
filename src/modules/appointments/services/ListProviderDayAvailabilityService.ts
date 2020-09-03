@@ -1,5 +1,5 @@
 import { injectable, inject } from 'tsyringe';
-import { getDaysInMonth, getDate, getHours } from 'date-fns';
+import { getDaysInMonth, getDate, getHours, isAfter } from 'date-fns';
 import IAppointmentsRepository from '../repositories/IAppointmentsRepository';
 
 interface IRequest {
@@ -44,12 +44,19 @@ class ListProviderDayAvailabilityService {
       (_i, index) => index + hourStart,
     );
 
+    const currentDate = new Date(Date.now());
+
     const availability = eachHourArray.map(hour => {
       const hasAppointment = appointments.find(
         appointment => getHours(appointment.date) === hour,
       );
 
-      return { hour, available: !hasAppointment };
+      const compareDate = new Date(year, month - 1, day, hour);
+
+      return {
+        hour,
+        available: !hasAppointment && isAfter(compareDate, currentDate),
+      };
     });
 
     return availability;
